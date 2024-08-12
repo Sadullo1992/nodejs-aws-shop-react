@@ -9,7 +9,7 @@ export function useAvailableProducts() {
     "available-products",
     async () => {
       const res = await axios.get<AvailableProduct[]>(
-        `${API_PATHS.bff}/product/available`
+        `${API_PATHS.product}/products`
       );
       return res.data;
     }
@@ -29,7 +29,7 @@ export function useAvailableProduct(id?: string) {
     ["product", { id }],
     async () => {
       const res = await axios.get<AvailableProduct>(
-        `${API_PATHS.bff}/product/${id}`
+        `${API_PATHS.product}/products/${id}`
       );
       return res.data;
     },
@@ -43,6 +43,12 @@ export function useRemoveProductCache() {
     (id?: string) =>
       queryClient.removeQueries(["product", { id }], { exact: true }),
     []
+  );
+}
+
+export function useCreateAvailableProduct() {
+  return useMutation((values: AvailableProduct) =>
+    axios.post<AvailableProduct>(`${API_PATHS.product}/products`, values)
   );
 }
 
